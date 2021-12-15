@@ -51,6 +51,7 @@ reviewRouter.put('/:reviewId', async (req, res, next) => {
             where: { id: req.params.reviewId },
             returning: true
         })
+        res.send(updatedReview)
     } catch (error) {
         console.log("Generic server error: ", error)
         next(error)

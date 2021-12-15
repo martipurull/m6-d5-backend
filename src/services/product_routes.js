@@ -65,6 +65,7 @@ productRouter.put('/:productId', async (req, res, next) => {
             where: { id: req.params.productId },
             returning: true
         })
+        res.send(updatedProduct)
     } catch (error) {
         console.log("Generic server error: ", error)
         next(error)
