@@ -77,14 +77,4 @@ reviewRouter.delete('/:reviewId', async (req, res, next) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
 export default reviewRouter
