@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import productRouter from './services/product_routes.js'
 import reviewRouter from './services/review_routes.js'
-import { testDbConnection } from './db/connect.js'
+import sequelize, { testDbConnection } from './db/connect.js'
 
 const server = express()
 
@@ -13,7 +13,9 @@ server.use('/products', productRouter)
 server.use('/reviews', reviewRouter)
 
 
-server.listen(process.env.PORT || 3001, () => {
+server.listen(process.env.PORT || 3001, async () => {
     console.log("Server running!")
-    testDbConnection()
+    await testDbConnection()
+    await sequelize.sync()
+
 })
