@@ -10,7 +10,7 @@ productRouter.post('/', async (req, res, next) => {
         const data = await Product.create(req.body)
         res.send(data)
     } catch (error) {
-        console.log("Generic server error: ", error)
+        console.log("Product post route error: ", error)
         next(error)
     }
 })
@@ -40,7 +40,7 @@ productRouter.get('/', async (req, res, next) => {
         )
         res.send(products)
     } catch (error) {
-        console.log("Generic server error: ", error)
+        console.log("Product get all route error: ", error)
         next(error)
     }
 })
@@ -54,7 +54,7 @@ productRouter.get('/:productId', async (req, res, send) => {
             res.status(404).send(`Product with id ${ req.params.productId } not found.`)
         }
     } catch (error) {
-        console.log("Generic server error: ", error)
+        console.log("Product get one route error: ", error)
         next(error)
     }
 })
@@ -67,7 +67,7 @@ productRouter.put('/:productId', async (req, res, next) => {
         })
         res.send(updatedProduct)
     } catch (error) {
-        console.log("Generic server error: ", error)
+        console.log("Product put one route error: ", error)
         next(error)
     }
 })
@@ -83,7 +83,7 @@ productRouter.delete('/:productId', async (req, res, next) => {
             res.status(404).send(`Product with id ${ req.params.productId } couldn't be deleted since it wasn't found.`)
         }
     } catch (error) {
-        console.log("Generic server error: ", error)
+        console.log("Product delete one route error: ", error)
         next(error)
     }
 })
