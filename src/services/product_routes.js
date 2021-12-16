@@ -38,7 +38,9 @@ productRouter.get('/', async (req, res, next) => {
                         model: Review, attributes: { exclude: ["id", "productId"], include: User },
                         model: Category, through: { attributes: [] }, attributes: { exclude: ["createdAt", "updatedAt"] }
                     }
-                ]
+                ],
+                limit: req.query.limit,
+                offset: parseInt(req.query.limit * (req.query.page - 1))
             }
         )
         res.send(products)
