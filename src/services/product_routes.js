@@ -1,6 +1,6 @@
 import express from 'express'
 import { Op } from 'sequelize'
-import { Product, Review } from '../db/models/index.js'
+import { Product, Review, User, Category, ProductCategory } from '../db/models/index.js'
 
 
 const productRouter = express.Router()
@@ -34,7 +34,10 @@ productRouter.get('/', async (req, res, next) => {
                 },
                 order: [["price", "DESC"], ["name", "DESC"]],
                 include: [
-                    { model: Review, attributes: { exclude: ["id", "productId"] } }
+                    {
+                        model: Review, attributes: { exclude: ["id", "productId"], include: User },
+                        model: Category, through: { attributes: [] }, attributes: { exclude: ["createdAt", "updatedAt"] }
+                    }
                 ]
             }
         )
