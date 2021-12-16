@@ -39,8 +39,8 @@ productRouter.get('/', async (req, res, next) => {
                         model: Category, through: { attributes: [] }, attributes: { exclude: ["createdAt", "updatedAt"] }
                     }
                 ],
-                limit: req.query.limit,
-                offset: parseInt(req.query.limit * (req.query.page - 1))
+                limit: req.query.limit ? req.query.limit : null,
+                offset: req.query.limit ? parseInt(req.query.limit * (req.query.page - 1)) : null
             }
         )
         res.send(products)
