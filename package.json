@@ -1,8 +1,7 @@
 {
-  "name": "M6D3",
+  "name": "m6d6be",
   "version": "1.0.0",
   "type": "module",
-  "description": "",
   "main": "./src/server.js",
   "dependencies": {
     "cors": "^2.8.5",
@@ -28,5 +27,6 @@
   "bugs": {
     "url": "https://github.com/martipurull/M6D3/issues"
   },
-  "homepage": "https://github.com/martipurull/M6D3#readme"
+  "homepage": "https://github.com/martipurull/M6D3#readme",
+  "description": ""
 }
