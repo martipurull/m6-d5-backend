@@ -5,6 +5,7 @@ import reviewRouter from './services/review_routes.js'
 import sequelize, { testDbConnection } from './db/connect.js'
 import categoryRouter from './services/category_routes.js'
 import userRouter from './services/user_routes.js'
+import cartItemRouter from './services/cartItem_routes.js'
 
 const server = express()
 
@@ -15,6 +16,7 @@ server.use('/products', productRouter)
 server.use('/reviews', reviewRouter)
 server.use('/categories', categoryRouter)
 server.use('/users', userRouter)
+server.use('/cart', cartItemRouter)
 
 
 server.listen(process.env.PORT || 3001, async () => {
