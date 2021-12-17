@@ -63,7 +63,7 @@ reviewRouter.delete('/:reviewId', async (req, res, next) => {
             where: { id: req.params.reviewId }
         })
         if (result > 0) {
-            res.send("Review deleted successfully.")
+            res.status(204).send()
         } else {
             res.status(404).send(`Review with id ${ req.params.reviewId } couldn't be deleted since it wasn't found.`)
         }

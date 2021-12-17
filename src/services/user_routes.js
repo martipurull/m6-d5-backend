@@ -71,11 +71,10 @@ userRouter.put('/:userId', async (req, res, next) => {
 
 userRouter.delete('/:userId', async (req, res, next) => {
     try {
-        const userToDelete = await User.destroy({
-            where: { id: req.params.userId }
-        })
+        const userToDelete = await User.destroy({ where: { id: req.params.userId } })
+        console.log(userToDelete)
         if (userToDelete > 0) {
-            res.status(204)
+            res.status(204).send()
         } else {
             res.status(404).send(`User with id ${ req.params.userId } couldn't be deleted since it wasn't found.`)
         }

@@ -7,8 +7,16 @@ const productRouter = express.Router()
 
 productRouter.post('/', async (req, res, next) => {
     try {
-        const data = await Product.create(req.body)
-        res.send(data)
+        const { categoryId, ...rest } = req.body
+        const product = await Product.create(rest)
+        if (product) {
+            const dataToPass = categoryId.map(id => ({
+                categoryId: id,
+                productId: product.id
+            }))
+            const productCategoryData = await ProductCategory.bulkCreate(dataToPass)
+            res.send({ product, productCategory: productCategoryData })
+        }
     } catch (error) {
         console.log("Product post route error: ", error)
         next(error)
@@ -19,6 +27,21 @@ productRouter.get('/', async (req, res, next) => {
     try {
         const products = await Product.findAll(
             {
+                include: [
+                    {
+                        model: Category,
+                        through: { attributes: [] },
+                        attributes: { exclude: ["createdAt", "updatedAt"] },
+                        where: {
+                            ...(req.query.category && {
+                                name: { [Op.in]: req.category.name.split(",") }
+                            })
+                        }
+                    },
+                    {
+                        model: Review, include: User
+                    }
+                ],
                 where: {
                     ...(req.query.search && {
                         [Op.or]: [
@@ -33,14 +56,8 @@ productRouter.get('/', async (req, res, next) => {
                     }),
                 },
                 order: [["price", "DESC"], ["name", "DESC"]],
-                include: [
-                    {
-                        model: Review, attributes: { exclude: ["id", "productId"], include: User },
-                        model: Category, through: { attributes: [] }, attributes: { exclude: ["createdAt", "updatedAt"] }
-                    }
-                ],
-                limit: req.query.limit ? req.query.limit : null,
-                offset: req.query.limit ? parseInt(req.query.limit * (req.query.page - 1)) : null
+                limit: req.query.limit,
+                offset: req.query.limit && req.query.page && parseInt(req.query.limit * (req.query.page - 1))
             }
         )
         res.send(products)
@@ -83,7 +100,7 @@ productRouter.delete('/:productId', async (req, res, next) => {
             where: { id: req.params.productId }
         })
         if (result > 0) {
-            res.send("Product deleted successfully.")
+            res.status(204).send()
         } else {
             res.status(404).send(`Product with id ${ req.params.productId } couldn't be deleted since it wasn't found.`)
         }

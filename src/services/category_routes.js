@@ -62,9 +62,9 @@ categoryRouter.put('/:categoryId', async (req, res, next) => {
 
 categoryRouter.delete('/:categoryId', async (req, res, next) => {
     try {
-        const categoryToDelete = Category.destroy({ where: { id: req.params.categoryId } })
-        if (categoryToDelete) {
-            res.status(204)
+        const categoryToDelete = await Category.destroy({ where: { id: req.params.categoryId } })
+        if (categoryToDelete > 0) {
+            res.status(204).send()
         } else {
             res.status(404).send(`Sorry, category with id ${ req.params.categoryId } was not found and could not be deleted.`)
         }
